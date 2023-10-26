@@ -1,0 +1,66 @@
+.form-container {
+    padding: 15px;
+    //background-color: aquamarine;
+   // background-color: #0093E9;
+    //background-image: linear-gradient(160deg, #0093E9 0%, #80D0C7 100%);
+  //  border-radius: 15px;
+}
+
+.form-row {
+    display: flex;
+    //background-color:blanchedalmond;
+    gap: 10px;
+    padding: 5px;
+
+    mat-form-field {
+        flex: 1 1 auto;
+    }
+
+    mat-card-actions.button {
+        flex: 1 1 auto;
+    }
+}
+
+/* mat-card-content,mat-card{
+    background-color:antiquewhite;
+    padding:0;
+    margin:0;
+} */
+
+
+.child-form-row {
+    display: flex;
+    gap: 10px;
+    padding: 5px;
+
+    mat-form-field {
+        flex: 1 1 auto;
+    }
+}
+
+
+.form-btn{
+    //display: flex;
+    button{
+        width: 100%;
+        border-radius: 20px;
+        margin-top:15px;
+    }
+}
+
+
+//adding style for product header
+.product-header{
+    //background-color: aquamarine;
+    display: flex;
+    justify-content:space-between;
+    padding: 10px 5px 5px 5px;
+}
+
+.product-title{
+}
+
+deleteBtn{
+    color: teal;
+    font-size: 50px;
+}

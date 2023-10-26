@@ -1,0 +1,26 @@
+.Container{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.CardContainer{
+    flex:30%;
+    background-color: cadetblue;
+    margin: 15px 10px;
+}
+
+mat-card{
+    min-height:250px;
+    background-color: aqua;
+}
+
+mat-card-content{
+    max-height:75px;
+    overflow-y: hidden;
+}
+
+@media(max-width: 768px) {
+    .Container{
+        flex-direction: column;
+    }
+}

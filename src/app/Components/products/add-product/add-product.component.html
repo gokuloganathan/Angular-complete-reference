@@ -1,0 +1,247 @@
+<mat-card>
+  <mat-card-content>
+    <form [formGroup]="NewProductForm" (ngSubmit)="submitProduct()">
+      <div class="form-container">
+        <!-- 
+          To check the entire form has any errors
+          {{ NewProductForm.get("newProducts")?.errors | json }}
+
+          To check the product list has minimum products has it has to be
+        {{NewProductForm.get(['newProducts'])?.hasError('MinProductCountReached')}}
+
+        To custom validate the product name does not contain `product` anywhere in the field
+        {{NewProductForm.get(["newProducts", i, "name"])?.errors| json}}
+                 -->
+        <div formArrayName="newProducts">
+          <div
+            *ngFor="let product of newProducts.controls; let i = index"
+            class="product"
+          >
+            <mat-card>
+              <mat-card-header class="product-header">
+                <mat-card-title class="product-title"
+                  >Product {{ i + 1 }}</mat-card-title
+                >
+                <button
+                  mat-flat-button
+                  (click)="DeleteProduct(i)"
+                  [hidden]="
+                    NewProductForm.get(['newProducts'])?.value.length <= 1
+                  "
+                >
+                  <mat-icon class="deleteBtn" color="warn">delete</mat-icon>
+                </button>
+              </mat-card-header>
+            </mat-card>
+            <div [formGroupName]="i">
+              <div class="form-row">
+                <mat-form-field>
+                  <mat-label>name</mat-label>
+                  <mat-hint>Eg:milk
+                    <!-- {{NewProductForm.get(['newProducts', i, 'name'])?.errors | json }}
+                   -->
+                  </mat-hint>
+                  <input matInput formControlName="name" />
+
+                  <mat-error
+                    *ngIf="
+                      !NewProductForm.get(['newProducts', i, 'name'])?.hasError(
+                        'minLength'
+                      ) ||
+
+                      !NewProductForm.get(['newProducts', i, 'name'])?.hasError(
+                        'maxLength'
+                      )
+                    "
+                  >
+                    name length must be between 3 and 17
+                  </mat-error>
+
+                  <mat-error
+                    *ngIf="
+                      NewProductForm.get(['newProducts', i, 'name'])?.hasError(
+                        'pattern'
+                      )
+                    "
+                  >
+                    integers and special characters are not allowed
+                  </mat-error>
+                  <!-- 
+
+                                      <mat-error
+                    *ngIf="
+                      NewProductForm.get(['newProducts', i, 'name'])?.hasError(
+                        'required'
+                      )
+                    "
+                  >
+                    product name is required
+                  </mat-error>
+                   -->
+                </mat-form-field>
+
+
+                <mat-form-field>
+                  <mat-label>price</mat-label>
+                  <mat-hint>Eg:Rs.30
+                    {{NewProductForm.get(['newProducts', i, 'price'])?.errors | json }}
+                  </mat-hint>
+                  <input matInput formControlName="price" type="number" />
+                  <mat-error
+                    *ngIf="
+                      NewProductForm.get(['newProducts', i, 'price'])?.hasError(
+                        'required'
+                      )
+                    "
+                  >
+                    product price is required
+                  </mat-error>
+                  <mat-error
+                    *ngIf="
+                      NewProductForm.get(['newProducts', i, 'price'])?.hasError(
+                        'min'
+                      )
+                    "
+                  >
+                    product price should atleast Rs. 1
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="form-row">
+                <mat-form-field>
+                  <mat-label>current stock</mat-label>
+                  <mat-hint>Eg:300 </mat-hint>
+                  <input matInput formControlName="totalStocks" type="number" />
+                  <mat-error
+                    *ngIf="
+                      NewProductForm.get([
+                        'newProducts',
+                        i,
+                        'totalStocks'
+                      ])?.hasError('required')
+                    "
+                  >
+                    stock quantity is required
+                  </mat-error>
+                  <mat-error
+                    *ngIf="
+                      NewProductForm.get([
+                        'newProducts',
+                        i,
+                        'totalStocks'
+                      ])?.hasError('min')
+                    "
+                  >
+                    stock quantity should be minimum 10
+                  </mat-error>
+                </mat-form-field>
+                <mat-form-field>
+                  <mat-label>category</mat-label>
+                  <mat-hint>Eg:grocery</mat-hint>
+                  <input matInput formControlName="category" />
+                  <mat-error
+                    *ngIf="
+                      NewProductForm.get([
+                        'newProducts',
+                        i,
+                        'category'
+                      ])?.hasError('required')
+                    "
+                  >
+                    product price is required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="child-form-row form-btn">
+          <button
+            mat-raised-button
+            color="accent"
+            class="btn"
+            type="button"
+            (click)="AddProduct()"
+            [hidden]="
+              NewProductForm.get(['newProducts'])?.hasError(
+                'MaxProductCountExceeded'
+              )
+            "
+          >
+            <mat-icon> add </mat-icon>
+            add
+          </button>
+        </div>
+
+        <div class="child-form-row">
+          <!-- <mat-form-field>
+            <input
+              matInput
+              [matDatepicker]="picker"
+              formControlName="lastUpdated"
+            />
+            <mat-hint>updated date</mat-hint>
+            <mat-datepicker-toggle
+              matIconSuffix
+              [for]="picker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field> -->
+        </div>
+        <div class="child-form-row" formGroupName="audit">
+          <mat-form-field>
+            <mat-label>seller ID</mat-label>
+            <!-- <mat-hint>enter Seller ID</mat-hint> -->
+            <input matInput formControlName="sellerID" />
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>seller name</mat-label>
+            <input matInput formControlName="sellerName" />
+            <mat-hint>selling company or individual</mat-hint>
+
+            <mat-error
+              *ngIf="
+                NewProductForm.get('audit.sellerName')?.hasError('required')
+              "
+            >
+              seller name is required
+            </mat-error>
+            <mat-error
+              *ngIf="
+                NewProductForm.get('audit.sellerName')?.hasError('minLength')
+                || NewProductForm.get('audit.sellerName')?.hasError('maxLength')
+              "
+            >
+              name should between 6 to 15 characters
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="child-form-row form-btn">
+          <button
+            mat-raised-button
+            color="accent"
+            class="btn"
+            [disabled]="NewProductForm.invalid"
+          >
+            submit
+            <mat-icon *ngIf="formSubmitted && NewProductForm.valid">
+              check
+            </mat-icon>
+          </button>
+        </div>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>
+
+<p>formfiels invalid</p>
+<p>{{ NewProductForm.invalid }}</p>
+<p>New Product errors</p>
+<p>{{ NewProductForm.get("newProducts")?.errors | json}}</p>
+<p>form values</p>
+<p>{{ NewProductForm.getRawValue() | json }}</p>
+
+<p>form submitted : {{ formSubmitted }}</p>
+<p>pristine : {{ NewProductForm.pristine }}</p>
+<p>dirty: {{ NewProductForm.dirty }}</p>

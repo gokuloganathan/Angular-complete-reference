@@ -1,4 +1,44 @@
 # AngularCompleteCourse
+For making proxy for port 3000 to port 4200
+
+`ng serve --proxy-config proxy.conf.mjs`
+
+To create the module with routing and flat single file structure 
+
+`ng g m Components/Productsproduct --routing --flat=true`
+
+To create the component with feature module with routing and lazy loading via cli
+`ng g m Components/Shipping --route=shipping --routing --module=app`
+
+To create the module and component w/o lazy loading
+`ng g m --routing Components/Shipping` & `ng g c Components/Shipping`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.2.7.
 
